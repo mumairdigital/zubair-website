@@ -95,21 +95,25 @@ export async function POST(req: Request) {
       });
     }
 
-    // Backup to leads.json
-    const leadsPath = path.join(process.cwd(), "leads.json");
-    let leads: object[] = [];
+    // Backup to leads.json (best-effort — Vercel's filesystem is read-only in production)
     try {
-      const existing = fs.readFileSync(leadsPath, "utf8");
-      leads = JSON.parse(existing);
-    } catch {
-      leads = [];
+      const leadsPath = path.join(process.cwd(), "leads.json");
+      let leads: object[] = [];
+      try {
+        const existing = fs.readFileSync(leadsPath, "utf8");
+        leads = JSON.parse(existing);
+      } catch {
+        leads = [];
+      }
+      leads.push({
+        ...data,
+        submittedAt: new Date().toISOString(),
+        ip: req.headers.get("x-forwarded-for") || "unknown",
+      });
+      fs.writeFileSync(leadsPath, JSON.stringify(leads, null, 2));
+    } catch (err) {
+      console.error("leads.json backup skipped:", err);
     }
-    leads.push({
-      ...data,
-      submittedAt: new Date().toISOString(),
-      ip: req.headers.get("x-forwarded-for") || "unknown",
-    });
-    fs.writeFileSync(leadsPath, JSON.stringify(leads, null, 2));
 
     return NextResponse.json({ success: true });
   } catch (error) {
