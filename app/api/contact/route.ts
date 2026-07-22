@@ -86,7 +86,7 @@ export async function POST(req: Request) {
     `;
 
     if (process.env.RESEND_API_KEY) {
-      await resend.emails.send({
+      const { error } = await resend.emails.send({
         from: process.env.RESEND_FROM || "mzubairkhan.com <info@mzubairkhan.com>",
         to: (process.env.CONTACT_EMAIL || "umairlanday@gmail.com")
           .split(",")
@@ -96,6 +96,11 @@ export async function POST(req: Request) {
         html: emailHtml,
         replyTo: data.email,
       });
+
+      if (error) {
+        console.error("Resend error:", error);
+        throw new Error(error.message || "Failed to send email via Resend");
+      }
     }
 
     // Backup to leads.json (best-effort — Vercel's filesystem is read-only in production)
