@@ -37,8 +37,8 @@ Required variables:
 RESEND_API_KEY=re_your_api_key
 RESEND_FROM=mzubairkhan.com <onboarding@resend.dev>
 
-# Email Destination (lead notifications sent here)
-CONTACT_EMAIL=umairlanday@gmail.com
+# Email Destination (lead notifications sent here — comma-separate for multiple recipients)
+CONTACT_EMAIL=umairlanday@gmail.com,khanmuhammadzubair79@gmail.com
 
 # Site URL
 NEXT_PUBLIC_SITE_URL=https://mzubairkhan.com

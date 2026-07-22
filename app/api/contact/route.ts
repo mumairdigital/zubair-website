@@ -88,7 +88,10 @@ export async function POST(req: Request) {
     if (process.env.RESEND_API_KEY) {
       await resend.emails.send({
         from: process.env.RESEND_FROM || "mzubairkhan.com <onboarding@resend.dev>",
-        to: process.env.CONTACT_EMAIL || "umairlanday@gmail.com",
+        to: (process.env.CONTACT_EMAIL || "umairlanday@gmail.com")
+          .split(",")
+          .map((e) => e.trim())
+          .filter(Boolean),
         subject: `New Lead: ${data.fullName} — ${businessTypeMap[data.businessType]} in ${cityMap[data.city]}`,
         html: emailHtml,
         replyTo: data.email,
