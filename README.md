@@ -9,7 +9,7 @@
 - **Styling:** Tailwind CSS
 - **Animations:** Framer Motion
 - **Forms:** React Hook Form + Zod
-- **Email:** Nodemailer
+- **Email:** Resend
 - **SEO:** Next.js Metadata API + JSON-LD schemas
 
 ---
@@ -33,21 +33,18 @@ cp .env.local .env.local
 Required variables:
 
 ```env
-# SMTP Configuration (Gmail recommended)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_SECURE=false
-SMTP_USER=your-gmail@gmail.com
-SMTP_PASS=your-gmail-app-password
+# Resend (https://resend.com) — email sending
+RESEND_API_KEY=re_your_api_key
+RESEND_FROM=mzubairkhan.com <onboarding@resend.dev>
 
 # Email Destination (lead notifications sent here)
-CONTACT_EMAIL=khanmuhammadzubair79@gmail.com
+CONTACT_EMAIL=umairlanday@gmail.com
 
 # Site URL
 NEXT_PUBLIC_SITE_URL=https://mzubairkhan.com
 ```
 
-> **Gmail App Password:** Go to Google Account → Security → 2-Step Verification → App Passwords. Generate a password for "Mail".
+> **Resend setup:** Sign up at [resend.com](https://resend.com), create an API key (Dashboard → API Keys), and paste it into `RESEND_API_KEY`. Until you verify your own domain (Dashboard → Domains → add `mzubairkhan.com` and add the DNS records they give you), you must use the sandbox sender `onboarding@resend.dev` as `RESEND_FROM` — it only delivers to the email address on your Resend account. Once your domain is verified, switch `RESEND_FROM` to something like `mzubairkhan.com <notifications@mzubairkhan.com>` and it can send to any address.
 
 ### 3. Add Your Photo
 
@@ -102,7 +99,7 @@ npm start
 ## Lead Management
 
 All contact form submissions are:
-1. **Emailed** to `khanmuhammadzubair79@gmail.com` (via Nodemailer)
+1. **Emailed** to `umairlanday@gmail.com` (via Resend)
 2. **Backed up** to `leads.json` in the project root
 
 The `leads.json` file accumulates all leads. To reset, empty the array: `[]`
@@ -121,11 +118,8 @@ The `leads.json` file accumulates all leads. To reset, empty the array: `[]`
 ### Environment Variables on Vercel
 
 Add these in Vercel Dashboard:
-- `SMTP_HOST`
-- `SMTP_PORT`
-- `SMTP_SECURE`
-- `SMTP_USER`
-- `SMTP_PASS`
+- `RESEND_API_KEY`
+- `RESEND_FROM`
 - `CONTACT_EMAIL`
 - `NEXT_PUBLIC_SITE_URL`
 

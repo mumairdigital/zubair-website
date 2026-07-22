@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { contactFormSchema } from "@/lib/schema";
 import fs from "fs";
 import path from "path";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
   try {
@@ -18,17 +20,6 @@ export async function POST(req: Request) {
     }
 
     const data = result.data;
-
-    // Send email via Nodemailer
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || "smtp.gmail.com",
-      port: parseInt(process.env.SMTP_PORT || "587"),
-      secure: process.env.SMTP_SECURE === "true",
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
 
     const businessTypeMap: Record<string, string> = {
       restaurant: "Restaurant / Cafe",
@@ -94,10 +85,10 @@ export async function POST(req: Request) {
       </div>
     `;
 
-    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-      await transporter.sendMail({
-        from: `"mzubairkhan.com" <${process.env.SMTP_USER}>`,
-        to: process.env.CONTACT_EMAIL || "khanmuhammadzubair79@gmail.com",
+    if (process.env.RESEND_API_KEY) {
+      await resend.emails.send({
+        from: process.env.RESEND_FROM || "mzubairkhan.com <onboarding@resend.dev>",
+        to: process.env.CONTACT_EMAIL || "umairlanday@gmail.com",
         subject: `New Lead: ${data.fullName} — ${businessTypeMap[data.businessType]} in ${cityMap[data.city]}`,
         html: emailHtml,
         replyTo: data.email,
