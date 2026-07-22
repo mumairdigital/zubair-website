@@ -35,7 +35,7 @@ Required variables:
 ```env
 # Resend (https://resend.com) — email sending
 RESEND_API_KEY=re_your_api_key
-RESEND_FROM=mzubairkhan.com <onboarding@resend.dev>
+RESEND_FROM=mzubairkhan.com <info@mzubairkhan.com>
 
 # Email Destination (lead notifications sent here — comma-separate for multiple recipients)
 CONTACT_EMAIL=umairlanday@gmail.com,khanmuhammadzubair79@gmail.com
@@ -44,7 +44,7 @@ CONTACT_EMAIL=umairlanday@gmail.com,khanmuhammadzubair79@gmail.com
 NEXT_PUBLIC_SITE_URL=https://mzubairkhan.com
 ```
 
-> **Resend setup:** Sign up at [resend.com](https://resend.com), create an API key (Dashboard → API Keys), and paste it into `RESEND_API_KEY`. Until you verify your own domain (Dashboard → Domains → add `mzubairkhan.com` and add the DNS records they give you), you must use the sandbox sender `onboarding@resend.dev` as `RESEND_FROM` — it only delivers to the email address on your Resend account. Once your domain is verified, switch `RESEND_FROM` to something like `mzubairkhan.com <notifications@mzubairkhan.com>` and it can send to any address.
+> **Resend setup:** Sign up at [resend.com](https://resend.com), create an API key (Dashboard → API Keys), and paste it into `RESEND_API_KEY`. `mzubairkhan.com` is verified in Resend (Dashboard → Domains), so `RESEND_FROM` sends from `info@mzubairkhan.com` and can deliver to any number of recipients.
 
 ### 3. Add Your Photo
 

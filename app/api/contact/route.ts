@@ -87,7 +87,7 @@ export async function POST(req: Request) {
 
     if (process.env.RESEND_API_KEY) {
       await resend.emails.send({
-        from: process.env.RESEND_FROM || "mzubairkhan.com <onboarding@resend.dev>",
+        from: process.env.RESEND_FROM || "mzubairkhan.com <info@mzubairkhan.com>",
         to: (process.env.CONTACT_EMAIL || "umairlanday@gmail.com")
           .split(",")
           .map((e) => e.trim())
