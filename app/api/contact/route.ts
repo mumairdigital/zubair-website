@@ -86,8 +86,12 @@ export async function POST(req: Request) {
     `;
 
     if (process.env.RESEND_API_KEY) {
+      const fromAddr = process.env.RESEND_FROM || "mzubairkhan.com <info@mzubairkhan.com>";
+      console.log(
+        `Resend debug: from="${fromAddr}" keyLen=${process.env.RESEND_API_KEY.length} keyTail=${process.env.RESEND_API_KEY.slice(-6)}`
+      );
       const { error } = await resend.emails.send({
-        from: process.env.RESEND_FROM || "mzubairkhan.com <info@mzubairkhan.com>",
+        from: fromAddr,
         to: (process.env.CONTACT_EMAIL || "umairlanday@gmail.com")
           .split(",")
           .map((e) => e.trim())
